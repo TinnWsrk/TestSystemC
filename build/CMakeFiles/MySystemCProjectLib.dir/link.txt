@@ -1,0 +1,2 @@
+/usr/bin/ar qc libMySystemCProjectLib.a CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o CMakeFiles/MySystemCProjectLib.dir/src/TopLevel.cpp.o
+/usr/bin/ranlib libMySystemCProjectLib.a

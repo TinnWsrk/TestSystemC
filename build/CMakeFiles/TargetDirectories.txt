@@ -1,0 +1,4 @@
+/home/tinnwongsirikul/Schreibtisch/TestSystemC/build/CMakeFiles/MySystemCProjectLib.dir
+/home/tinnwongsirikul/Schreibtisch/TestSystemC/build/CMakeFiles/MySystemCProject.dir
+/home/tinnwongsirikul/Schreibtisch/TestSystemC/build/CMakeFiles/edit_cache.dir
+/home/tinnwongsirikul/Schreibtisch/TestSystemC/build/CMakeFiles/rebuild_cache.dir

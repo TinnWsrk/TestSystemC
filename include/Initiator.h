@@ -2,6 +2,7 @@
 #define INITIATOR_H
 
 #include <systemc>
+#include <systemc.h>
 #include <tlm>
 
 #include <cstdint>
@@ -12,6 +13,7 @@
 SC_MODULE(Initiator) {
 public:
     tlm_utils::simple_initiator_socket<Initiator> socket; // Initiator-Socket
+    sc_signal<bool> transaction_status;// Signal für den Transaktionsstatus
 
     SC_CTOR(Initiator) : socket("socket") {
         SC_THREAD(process); // Prozess starten

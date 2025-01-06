@@ -8,6 +8,7 @@
 using namespace sc_core;
 
 int sc_main(int argc, char* argv[]) {
+    
     // SystemC Initialisierung
     sc_clock clk("clk", 10, SC_NS);
 

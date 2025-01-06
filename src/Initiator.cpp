@@ -10,6 +10,7 @@
 
 
 void Initiator::process() {
+    
     tlm::tlm_generic_payload trans; // Transaktionsobjekt
     sc_core::sc_time delay = sc_core::SC_ZERO_TIME; // Verzögerung
 
@@ -26,6 +27,9 @@ void Initiator::process() {
 
     // Antwortstatus prüfen
     if (trans.get_response_status() == tlm::TLM_OK_RESPONSE) {
-        std::cout << "Initiator: Transaktion erfolgreich abgeschlossen!" << std::endl;
+        transaction_status.write(true); // Erfolg
+    }
+    else{
+        transaction_status.write(false); //Fehler
     }
 }

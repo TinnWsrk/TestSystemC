@@ -13,11 +13,13 @@ int sc_main(int argc, char* argv[]) {
     sc_clock clk("clk", 10, SC_NS);
 
     // Instanziere Initiator und Target
-    Initiator initiator("Initiator");
+   /* Initiator initiator("Initiator");
     Target target("Target");
+*/
 
+    TopLevel topLevel("TopLevel");
     // Verbindungen erstellen
-    initiator.socket.bind(target.socket);
+    // initiator.socket.bind(target.socket);
 
     // Simulation starten
     sc_start(100, SC_NS);

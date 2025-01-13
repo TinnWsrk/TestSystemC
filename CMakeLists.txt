@@ -17,8 +17,8 @@ link_directories(${SYSTEMC_HOME}/lib-linux64)
 
 # Bibliothek erstellen
 add_library(MySystemCProjectLib
-    src/Initiator.cpp
-    src/Target.cpp
+    src/KGC.cpp
+    src/NA.cpp
     src/TopLevel.cpp
 )
 

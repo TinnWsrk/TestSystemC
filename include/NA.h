@@ -1,28 +1,34 @@
-#ifndef TARGET_H
-#define TARGET_H
+#ifndef NA_H
+#define NA_H
+
 
 #include <systemc>
 #include <systemc.h>
 #include <tlm>
-#include <tlm_utils/simple_target_socket.h>
+#include<iostream>
+#include <boost/multiprecision/cpp_int.hpp>
 
-SC_MODULE(Target) {
+using uint128_t = boost::multiprecision::uint128_t;
+
+class NA : public sc_module {
 public:
-    tlm_utils::simple_target_socket<Target> socket; // Target-Socket
-    sc_signal<bool> transaction_status;
 
-    SC_CTOR(Target) : socket("socket") {
-        //SC_METHOD(b_transport_thread); //Überwache b_transport
-       // sensitive << socket;
+    //Target-Socket für NA von KGC
+    tlm_utils::simple_target_socket <NA> tNASocket;
 
-       socket.register_b_transport(this, &Target::b_transport);
+    //Konstruktor
 
-    
-}
-//void b_transport_thread(); //Wrapper-Methode ohne Parameter
+    SC_CTOR(NA) : tNASocket("tNASocket"){
 
-void b_transport(tlm::tlm_generic_payload& trans, sc_core::sc_time& delay); // Verarbeite Transaktion
+        tNASocket.register_b_transport(this, &NA::b_transport);
+    }
+
+    void b_transport(tlm::tlm_generic_payload& trans, sc_time& delay);
+
+private:
+
 
 
 };
-#endif // TARGET_H
+
+#endif //NA_H

@@ -69,33 +69,33 @@ include CMakeFiles/MySystemCProjectLib.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/MySystemCProjectLib.dir/flags.make
 
-CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o: CMakeFiles/MySystemCProjectLib.dir/flags.make
-CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o: /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/Initiator.cpp
-CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o: CMakeFiles/MySystemCProjectLib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/tinnwongsirikul/Schreibtisch/TestSystemC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o -MF CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o.d -o CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o -c /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/Initiator.cpp
+CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.o: CMakeFiles/MySystemCProjectLib.dir/flags.make
+CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.o: /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/KGC.cpp
+CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.o: CMakeFiles/MySystemCProjectLib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/tinnwongsirikul/Schreibtisch/TestSystemC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.o -MF CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.o.d -o CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.o -c /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/KGC.cpp
 
-CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/Initiator.cpp > CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.i
+CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/KGC.cpp > CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.i
 
-CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/Initiator.cpp -o CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.s
+CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/KGC.cpp -o CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.s
 
-CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o: CMakeFiles/MySystemCProjectLib.dir/flags.make
-CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o: /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/Target.cpp
-CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o: CMakeFiles/MySystemCProjectLib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/tinnwongsirikul/Schreibtisch/TestSystemC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o -MF CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o.d -o CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o -c /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/Target.cpp
+CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o: CMakeFiles/MySystemCProjectLib.dir/flags.make
+CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o: /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/NA.cpp
+CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o: CMakeFiles/MySystemCProjectLib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/tinnwongsirikul/Schreibtisch/TestSystemC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o -MF CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o.d -o CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o -c /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/NA.cpp
 
-CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/Target.cpp > CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.i
+CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/NA.cpp > CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.i
 
-CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/Target.cpp -o CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.s
+CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/NA.cpp -o CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.s
 
 CMakeFiles/MySystemCProjectLib.dir/src/TopLevel.cpp.o: CMakeFiles/MySystemCProjectLib.dir/flags.make
 CMakeFiles/MySystemCProjectLib.dir/src/TopLevel.cpp.o: /home/tinnwongsirikul/Schreibtisch/TestSystemC/src/TopLevel.cpp
@@ -113,15 +113,15 @@ CMakeFiles/MySystemCProjectLib.dir/src/TopLevel.cpp.s: cmake_force
 
 # Object files for target MySystemCProjectLib
 MySystemCProjectLib_OBJECTS = \
-"CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o" \
-"CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o" \
+"CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.o" \
+"CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o" \
 "CMakeFiles/MySystemCProjectLib.dir/src/TopLevel.cpp.o"
 
 # External object files for target MySystemCProjectLib
 MySystemCProjectLib_EXTERNAL_OBJECTS =
 
-libMySystemCProjectLib.a: CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o
-libMySystemCProjectLib.a: CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o
+libMySystemCProjectLib.a: CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.o
+libMySystemCProjectLib.a: CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o
 libMySystemCProjectLib.a: CMakeFiles/MySystemCProjectLib.dir/src/TopLevel.cpp.o
 libMySystemCProjectLib.a: CMakeFiles/MySystemCProjectLib.dir/build.make
 libMySystemCProjectLib.a: CMakeFiles/MySystemCProjectLib.dir/link.txt

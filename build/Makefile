@@ -142,53 +142,53 @@ MySystemCProject/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProject.dir/build.make CMakeFiles/MySystemCProject.dir/build
 .PHONY : MySystemCProject/fast
 
-src/Initiator.o: src/Initiator.cpp.o
-.PHONY : src/Initiator.o
+src/KGC.o: src/KGC.cpp.o
+.PHONY : src/KGC.o
 
 # target to build an object file
-src/Initiator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.o
-.PHONY : src/Initiator.cpp.o
+src/KGC.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.o
+.PHONY : src/KGC.cpp.o
 
-src/Initiator.i: src/Initiator.cpp.i
-.PHONY : src/Initiator.i
+src/KGC.i: src/KGC.cpp.i
+.PHONY : src/KGC.i
 
 # target to preprocess a source file
-src/Initiator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.i
-.PHONY : src/Initiator.cpp.i
+src/KGC.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.i
+.PHONY : src/KGC.cpp.i
 
-src/Initiator.s: src/Initiator.cpp.s
-.PHONY : src/Initiator.s
+src/KGC.s: src/KGC.cpp.s
+.PHONY : src/KGC.s
 
 # target to generate assembly for a file
-src/Initiator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/Initiator.cpp.s
-.PHONY : src/Initiator.cpp.s
+src/KGC.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/KGC.cpp.s
+.PHONY : src/KGC.cpp.s
 
-src/Target.o: src/Target.cpp.o
-.PHONY : src/Target.o
+src/NA.o: src/NA.cpp.o
+.PHONY : src/NA.o
 
 # target to build an object file
-src/Target.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.o
-.PHONY : src/Target.cpp.o
+src/NA.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o
+.PHONY : src/NA.cpp.o
 
-src/Target.i: src/Target.cpp.i
-.PHONY : src/Target.i
+src/NA.i: src/NA.cpp.i
+.PHONY : src/NA.i
 
 # target to preprocess a source file
-src/Target.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.i
-.PHONY : src/Target.cpp.i
+src/NA.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.i
+.PHONY : src/NA.cpp.i
 
-src/Target.s: src/Target.cpp.s
-.PHONY : src/Target.s
+src/NA.s: src/NA.cpp.s
+.PHONY : src/NA.s
 
 # target to generate assembly for a file
-src/Target.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/Target.cpp.s
-.PHONY : src/Target.cpp.s
+src/NA.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MySystemCProjectLib.dir/build.make CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.s
+.PHONY : src/NA.cpp.s
 
 src/TopLevel.o: src/TopLevel.cpp.o
 .PHONY : src/TopLevel.o
@@ -248,12 +248,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... MySystemCProject"
 	@echo "... MySystemCProjectLib"
-	@echo "... src/Initiator.o"
-	@echo "... src/Initiator.i"
-	@echo "... src/Initiator.s"
-	@echo "... src/Target.o"
-	@echo "... src/Target.i"
-	@echo "... src/Target.s"
+	@echo "... src/KGC.o"
+	@echo "... src/KGC.i"
+	@echo "... src/KGC.s"
+	@echo "... src/NA.o"
+	@echo "... src/NA.i"
+	@echo "... src/NA.s"
 	@echo "... src/TopLevel.o"
 	@echo "... src/TopLevel.i"
 	@echo "... src/TopLevel.s"

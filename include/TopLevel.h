@@ -6,15 +6,15 @@
 #include "Target.h"
 
 SC_MODULE(TopLevel) {
-    Initiator* initiator;
-    Target* target;
+    std::unique_ptr <Initiator> initiator; //Smart Pointer
+    std::unique_ptr<Target> target;
 
     sc_signal<bool> transaction_status_signal; //Signal zur Übertragung von trans
     //sc_export<sc_signal<bool> exported_signal; //exportiertes Signal
 
     SC_CTOR(TopLevel) {
-        initiator = new Initiator("Initiator");
-        target = new Target("Target");
+        initiator = std::make_unique<Initiator>("Initiator");
+        target = std::make_unique<Target>("Target");
 
         // Verbindungen herstellen
         initiator->socket.bind(target->socket);
@@ -30,7 +30,7 @@ SC_MODULE(TopLevel) {
         while(true){
             
             wait(transaction_status_signal.posedge()); //warten auf Statusänderung
-            wait(SC_ZERO_TIME);
+            
             if(transaction_status_signal.read()){
                 std::cout << "Transaktion erfolgreich abgeschlossen!" << std::endl;
 
@@ -49,10 +49,7 @@ SC_MODULE(TopLevel) {
     }
     */
 
-    ~TopLevel() {
-        delete initiator;
-        delete target;
-    }
+   
 };
 
 #endif // TOPLEVEL_H

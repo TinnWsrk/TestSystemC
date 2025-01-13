@@ -26,7 +26,7 @@ void Target::b_transport(tlm::tlm_generic_payload& trans, sc_core::sc_time& dela
     transaction_status.write(true);
 } */
 
-void Target:: b_transport_thread (){
+/*void Target:: b_transport_thread (){
     while(true){
         tlm::tlm_generic_payload trans;
         sc_core::sc_time delay = SC_ZERO_TIME;
@@ -34,7 +34,7 @@ void Target:: b_transport_thread (){
         b_transport(trans, delay); //Transaktion verarbeiten, b_transport aufrufen
         wait(10,SC_NS); //warten auf den nächsten Zyklus
     }
-}
+}*/
 
 void Target::b_transport(tlm::tlm_generic_payload& trans, sc_core ::sc_time& delay){
     auto cmd = trans.get_command();
@@ -48,6 +48,7 @@ void Target::b_transport(tlm::tlm_generic_payload& trans, sc_core ::sc_time& del
                   << "von Adresse 0x" << addr << std::endl;
     }
     trans.set_response_status(tlm::TLM_OK_RESPONSE); //Antwort setzen
+    transaction_status.write(true); //status neu
 }
 
 

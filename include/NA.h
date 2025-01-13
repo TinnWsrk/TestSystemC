@@ -19,7 +19,7 @@ public:
 
     
 }
-void b_transport_thread(); //Wrapper-Methode ohne Parameter
+//void b_transport_thread(); //Wrapper-Methode ohne Parameter
 
 void b_transport(tlm::tlm_generic_payload& trans, sc_core::sc_time& delay); // Verarbeite Transaktion
 

@@ -383,6 +383,7 @@ CMakeFiles/MySystemCProjectLib.dir/src/NA.cpp.o: \
  /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
  /usr/include/c++/13/bits/stl_map.h \
  /usr/include/c++/13/bits/stl_multimap.h \
+ /home/tinnwongsirikul/systemc-2.3.3/include/tlm_utils/simple_initiator_socket.h \
  /usr/local/include/boost/multiprecision/cpp_int.hpp \
  /usr/include/c++/13/cstdint /usr/include/c++/13/iomanip \
  /usr/include/c++/13/locale \

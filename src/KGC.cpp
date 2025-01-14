@@ -60,7 +60,7 @@ void KGC::set_num_user(int num_users)
 
 //generiert Zufallszahlen aus GF(p)
 uint128_t KGC::random_element_gf(uint128_t p){
-    boost::random::mt19937 gen(static_cast<unsigned int>(time(0)));
+    //boost::random::mt19937 gen(static_cast<unsigned int>(time(0)));
     boost::random::uniform_int_distribution <uint128_t> dist (0,p-1);
     return dist(gen);
 }
@@ -110,8 +110,6 @@ std::map <int, std::function<uint128_t(uint128_t)>> KGC::generate_individual_pol
         individual_polynomials[user_id]=[=](uint128_t x){
             return symmetric_polynomial(x,r_B,a,b,c,p);
 
-
-
         };
         //Ausgabe zur Veranschaulichung
         std::cout << " Individuelles Polynom für Benutzer" << user_id<< ":g_B(x) = f(x," << r_B <<")" <<std::endl;
@@ -136,29 +134,50 @@ void KGC::generate_and_send_key(){
     uint128_t b = random_element_gf(p);
     uint128_t c = random_element_gf(p);
 
+    std::cout << "a="<< a <<"b= "<< b << "c="<<c<< std::endl;
 
+    //generate  r_B für jede Benutzer
     generate_unique_public_values(p,num_users);
 
-    //Indivdl Polynom generieren
+    //Indivdl Polynom generieren mit a,b,c
     auto individual_polynomials = generate_individual_polynomials(a,b,c,p);
 
+    //Zähler zur Auswahl des iSocket für KGC
+    int socket_selector =0;
+
+
+    //für jede NA trans erstellen
     for (const auto& [user_id,r_B] : public_values){
         tlm::tlm_generic_payload trans; // Trans Objekt erstellen
         sc_core::sc_time delay = sc_core::SC_ZERO_TIME; //Verzögerung
 
-        uint128_t x = random_element_gf(p); 
-        uint128_t result = individual_polynomials[user_id](x); //Polynom für x berechnen
+
+        //koeff Vektor für jede Benutzer berechnen
+        uint128_t coeff_b = (b*r_B*r_B) % p;
+        uint128_t coeff_c = (c*r_B) %p;
+        
+        //Array zur Speicherung und Senden von Polynom(result) und r_B(pub_values)
+        uint128_t data_array[4]={a,coeff_b, coeff_c, r_B};
 
         //Transaktionsdaten einrichten
         trans.set_command(tlm::TLM_WRITE_COMMAND);
         trans.set_address(user_id);
-        trans.set_data_ptr(reinterpret_cast<unsigned char*>(&result)); //Zeiger auf die Daten
-        trans.set_data_length(sizeof(result));
+        trans.set_data_ptr(reinterpret_cast<unsigned char*>(&data_array)); //Zeiger auf die Daten
+        trans.set_data_length(sizeof(data_array));
 
-        std::cout << "KGC: Send individuell für Benutzer " << user_id << "mit Ergebnis:" << result << std::endl;
+        std::cout << "KGC: Send individuell für Benutzer:   " << user_id << ": a = " << a << ", coeff b =  " << coeff_b << ", coeff c = "<< coeff_c <<  std::endl;
         
-        //Transaktion senden, über Initator
-        iKGCSocket -> b_transport(trans, delay);
+
+        //wähle iSock für KGC na1 bzw. na2
+
+        if(socket_selector==0){
+            iKGCSocket1->b_transport(trans,delay); // trans über iSocket 1
+            socket_selector=1; //Umschalten
+        }else{
+            iKGCSocket2->b_transport(trans, delay); //trans über iSocket 2 senden
+            socket_selector=0; //umschalten zurück auf 0
+        }
+        
 
         if(trans.get_response_status()!= tlm::TLM_OK_RESPONSE){
             std::cerr << "KGC:Fehler beim Senden der Transaktion an Benutzer" << user_id << std::endl;

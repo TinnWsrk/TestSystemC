@@ -8,13 +8,14 @@ using namespace sc_core;
 
 int sc_main(int argc, char* argv[]) {
     
-    int num_users=1;
+   
 
     TopLevel top("TopLevel");
     
-    top.kgc.set_num_user(1);
+    top.kgc.set_num_user(2);
 
-    sc_start(1000, SC_NS);
+    top.start_simulation();
+    top.start_key_exchange_process();
 
     std::cout << "Simulation beendet."<< std::endl;
 

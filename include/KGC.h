@@ -22,8 +22,9 @@ using uint128_t= boost::multiprecision::uint128_t;
 SC_MODULE(KGC){
 
 public:
-    
-    tlm_utils::simple_initiator_socket<KGC> iKGCSocket;
+    //2 mal iSock für 2 NA, kann nur so lösen, sonst kann man iSock nicht 2 mal binden :/
+    tlm_utils::simple_initiator_socket<KGC> iKGCSocket1;
+    tlm_utils::simple_initiator_socket<KGC> iKGCSocket2;
     //std::map<int,uint128_t> public_values;
     
     SC_CTOR(KGC){
@@ -59,6 +60,10 @@ private:
     std::map<int, uint128_t> public_values;
     
     std::map<int, std::function<uint128_t(uint128_t) >> individual_polynomials;
+
+
+    //Mem Variable Zufallsgenerator
+    boost::random::mt19937 gen;
 
 
 };

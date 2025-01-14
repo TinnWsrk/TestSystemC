@@ -1,28 +1,22 @@
 #include <systemc>
 #include<tlm>
 
-#include "Initiator.h"
-#include "Target.h"
+
 #include "TopLevel.h"
 
 using namespace sc_core;
 
 int sc_main(int argc, char* argv[]) {
     
-    // SystemC Initialisierung
-    sc_clock clk("clk", 10, SC_NS);
+    int num_users=1;
 
-    // Instanziere Initiator und Target
-   /* Initiator initiator("Initiator");
-    Target target("Target");
-*/
+    TopLevel top("TopLevel");
+    
+    top.kgc.set_num_user(1);
 
-    TopLevel topLevel("TopLevel");
-    // Verbindungen erstellen
-    // initiator.socket.bind(target.socket);
+    sc_start(1000, SC_NS);
 
-    // Simulation starten
-    sc_start(100, SC_NS);
+    std::cout << "Simulation beendet."<< std::endl;
 
     return 0;
 }

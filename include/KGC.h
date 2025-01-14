@@ -7,12 +7,11 @@
 #include <boost/random.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <iostream>
-
+#include <map>
 #include <cstdint>
 #include <tlm_utils/simple_initiator_socket.h>
 
-using namespace boost::multiprecision; //für große Zahlen
-using boost::random;
+
 
 //Ganzezahlen mit 128 Bit
 //using uint128_t = boost::multiprecision::uint128_t;
@@ -20,15 +19,20 @@ using boost::random;
 using uint128_t= boost::multiprecision::uint128_t;
 
 
-class KGC : public sc_module {
+SC_MODULE(KGC){
 
 public:
     
-    tlm_util::simple_initiator_socket<KGC> iKGCSocket;
-
-    KGC(sc_module_name name);
-
+    tlm_utils::simple_initiator_socket<KGC> iKGCSocket;
+    //std::map<int,uint128_t> public_values;
     
+    SC_CTOR(KGC){
+        SC_THREAD(generate_and_send_key);
+    }
+
+    void set_num_user(int num_users);
+
+
     // zur Generierung zufällig p
     uint128_t generate_random_prime();
 
@@ -43,13 +47,18 @@ public:
     //gen public Value
     void generate_unique_public_values(uint128_t p, int num_users);
 
-    std::map<int, std::function < uint128_t a, uint128_t b, uint128_t c, uint128_t p);
+    std::map<int, std::function<uint128_t(uint128_t)>>  generate_individual_polynomials (uint128_t a, uint128_t b, uint128_t c, uint128_t p);
 
-    void generate_and_send_key(int num_users);
+    
    
 
 private:
+    void generate_and_send_key();
+
+    int num_users;
     std::map<int, uint128_t> public_values;
+    
+    std::map<int, std::function<uint128_t(uint128_t) >> individual_polynomials;
 
 
 };

@@ -48,10 +48,11 @@ public:
     void b_transport_from_kgc(tlm::tlm_generic_payload& trans, sc_core::sc_time& delay);
     void b_transport_from_na(tlm::tlm_generic_payload& trans, sc_core::sc_time& delay);
     //Schlüsselaustausch mit anderen NA
-    //void start_key_exchange(NA* other_na);
+    void start_key_exchange(NA* other_na);
 
 
-    //void calculate_key();
+    void calculate_key();
+    uint128_t calculate_user_polynomial(std::vector<boost::multiprecision::uint128_t>&coefficients, uint128_t,uint128_t x, uint128_t p);
 
 private:
 
@@ -60,6 +61,7 @@ private:
     void init();
     uint128_t share_key; // gemeinsamer Schlüssel
     std::vector<uint128_t> coefficients; //Dynamisch für Koeff gon g(x)
+    uint128_t prim;
 
     
     

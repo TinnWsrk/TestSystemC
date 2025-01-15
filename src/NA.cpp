@@ -24,6 +24,7 @@ void NA::b_transport_from_kgc(tlm::tlm_generic_payload& trans, sc_time& delay){
         }
 
         public_value = received_coeffs[9]; //r_B speichern
+        prim =received_coeffs[10];
         
         std::cout<< "NA Empfangen von Benutzer ID:"<<trans.get_address()<<", Koeffizienten = [";
         for (size_t i = 0; i < coefficients.size(); i++)
@@ -34,7 +35,9 @@ void NA::b_transport_from_kgc(tlm::tlm_generic_payload& trans, sc_time& delay){
                 std::cout << ", ";
             } 
         }
-        std::cout << "j, r_B= " << public_value <<std::endl;
+        std::cout << "--und, r_B= " << public_value << ", p = "<< prim << std::endl;
+        
+    
 
     }
     else{
@@ -57,15 +60,15 @@ void NA::b_transport_from_na(tlm::tlm_generic_payload& trans, sc_time& delay){
         recieved_r_B = r_B;
 
         std::cout <<"NA: Emfang vom anderen NA -ID: - " <<addr<< ", empfangenes r_B =" << r_B <<std::endl;
-
-    
+        
     }else{
         std::cout <<"NA Errorrrrr von ID"<< id<<"hat Fehler"<< std::endl;
     }
     trans.set_response_status(tlm::TLM_OK_RESPONSE);
 }
-/*
+
 void NA::start_key_exchange(NA* other_na){
+    std::cout <<"Hiiiiiiiiiiiiiiiiiiiiiiiiiiii"<< id<<"hat Fehler"<< std::endl;
 
     if(public_value==0){
         std::cerr << "NA: hat kein r_B von KGC" << std::endl;
@@ -96,6 +99,31 @@ void NA::start_key_exchange(NA* other_na){
 
 }
 
+uint128_t  NA::calculate_user_polynomial(std::vector<boost::multiprecision::uint128_t>&coefficients, uint128_t r_B,uint128_t x, uint128_t p){
+    uint128_t result =0;
+
+    //g_U(x) für d=2
+    int index =0;
+    for (int i = 0; i < 2; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+
+            if(index<coefficients.size()){
+            uint128_t term = coefficients[index]*boost::multiprecision::pow(x,i)*boost::multiprecision::pow(r_B,j);
+            result = (result+term)%prim; // mod p
+            index++;
+            }else{
+                std::cerr << "Fehler:: Index überschreitet"<< std::endl;
+                return 0;
+            }
+        }
+        
+    }
+    return result;
+    
+}
+
 void NA::calculate_key(){
    
    if(recieved_r_B==0){
@@ -104,12 +132,12 @@ void NA::calculate_key(){
 
    }
    //Berechnen Key
-   uint128_t key = (coeff_a*recieved_r_B*recieved_r_B+recieved_r_B*coeff_b+coeff_c*recieved_r_B) ;
+   share_key = calculate_user_polynomial(coefficients, public_value, recieved_r_B,prim);
 
    //Key ausgeben
-   std::cout <<"NA-"<< id<<"---->>>> Schlüssel ist "<<key <<" +++++"<< std::endl;
+   std::cout <<"NA-"<< id<<"---->>>> Schlüssel ist "<<share_key <<" +++++"<< std::endl;
 
-   share_key = key;
+   
 
 
-}*/
+}

@@ -14,7 +14,7 @@ void TopLevel::start_simulation(){
 
 
 
-/*
+
 void TopLevel::start_key_exchange_process(){
     std::cout <<"Toplevel warten auf kgc_done_event ...."<<std::endl;
     //wait(kgc_done_event);
@@ -32,4 +32,4 @@ void TopLevel::start_key_exchange_process(){
     na1.calculate_key();
     na2.calculate_key();
 
-}*/
+}

@@ -263,6 +263,8 @@ void KGC::generate_and_send_key(){
 
         //füg r_B in Array
         data_array[9] =r_B;
+        //add p
+        data_array[10] =p;
 
         //Transaktionsdaten einrichten
         trans.set_command(tlm::TLM_WRITE_COMMAND);

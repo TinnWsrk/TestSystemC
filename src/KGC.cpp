@@ -119,7 +119,7 @@ std::map <int, std::function<uint128_t(uint128_t)>> KGC::generate_individual_pol
 
     std::map<int, std::function<uint128_t(uint128_t)>> individual_polynomials;
     
-
+    
 
     //Iteriert über Benutzer und die öff Werte
     for(const auto& [user_id, r_B]: public_values){
@@ -130,7 +130,7 @@ std::map <int, std::function<uint128_t(uint128_t)>> KGC::generate_individual_pol
         for (int i=0; i<=d;i++){
             //Berechne die Koeff - r_B ind f(x,y)
             uint128_t coeff =0;
-            for(int j=0;i<=d;j++){
+            for(int j=0;j<=d;j++){
                 uint128_t term = coefficients[index]*pow(r_B,j); //r_B einsetzen 
                 coeff=(coeff+term)%p;
                 index ++;
@@ -150,6 +150,7 @@ std::map <int, std::function<uint128_t(uint128_t)>> KGC::generate_individual_pol
 
     
         };
+        std::cout<<"Hallo hi"<< std::endl;
 
         //g_B funktion in die Map aufgenommen
         individual_polynomials[user_id]= g_B_function;

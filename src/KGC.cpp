@@ -1,6 +1,8 @@
 #include "KGC.h"
 #include <boost/random.hpp>
 #include <boost/multiprecision/miller_rabin.hpp>
+#include <boost/multiprecision/cpp_int.hpp>
+#include <boost/array.hpp>
 #include <iostream>
 #include <map>
 #include <set>
@@ -66,16 +68,31 @@ uint128_t KGC::random_element_gf(uint128_t p){
 }
 
 //methode zur Berechnung sysmmetrischen Polynoms
-uint128_t KGC::symmetric_polynomial(uint128_t x, uint128_t y, uint128_t a,uint128_t b, uint128_t c, uint128_t p){
+uint128_t KGC::symmetric_polynomial(uint128_t x, uint128_t y, uint128_t d,uint128_t coefficients[], uint128_t p){
     using boost::multiprecision::pow;
+
+    //result von dem Polynom
+    uint128_t result =0;
+
+    //Berechnung des Polynoms mit dynamischem Grad d
+
+    //index in Coeff
+    int index =0;
+    for(int i=0;i<=d;i++){
+        for(int j =0;j<=d;j++){
+            uint128_t term = coefficients[index]*pow(x,i)*pow(y,j);
+            result=(result +term)%p; //add und mod
+            index ++;
+        }
+    }
     
-    return (a*pow(x,2)+b*pow(y,2)+c*x*y) % p; // Polynom mod p
+    return result;
+
 }
-
-
 //öffentliche Werte geniereieren, unique Param
 
-void KGC:: generate_unique_public_values(uint128_t p, int num_users){
+void KGC::generate_unique_public_values(uint128_t p, int num_users){
+
     std::set<uint128_t> unique_values; //Set zur Überprüng von Unique
     boost::random::mt19937 gen(static_cast<unsigned int>(time(0))); //Zufallszahlengenerator
     
@@ -89,7 +106,7 @@ void KGC:: generate_unique_public_values(uint128_t p, int num_users){
         }while (unique_values.find(value) !=unique_values.end()); //prüfen, verdoppeln
 
         unique_values.insert(value); //eindeutig markieren
-        public_values[i]=value; // Wert dem Benutzer mit Index i zuweisen
+        public_values.insert({i,value}); // Wert dem Benutzer mit Index i zuweisen
 
         //Veranschaulichen
         std::cout << "Benutzer" << i <<": Öffentlicher Wert =" << value << " mod" << p <<std::endl;
@@ -97,24 +114,56 @@ void KGC:: generate_unique_public_values(uint128_t p, int num_users){
 }
 
 //Generiertung individueller Polynome
-std::map <int, std::function<uint128_t(uint128_t)>> KGC::generate_individual_polynomials(uint128_t a,uint128_t b, uint128_t c,uint128_t p){
+std::map <int, std::function<uint128_t(uint128_t)>> KGC::generate_individual_polynomials(uint128_t d,uint128_t p, std::vector<boost::multiprecision::uint128_t>&coefficients){
     
 
-    
     std::map<int, std::function<uint128_t(uint128_t)>> individual_polynomials;
+    
 
 
     //Iteriert über Benutzer und die öff Werte
     for(const auto& [user_id, r_B]: public_values){
-        //Lambda-Funktion für das indiv. Polynom
-        individual_polynomials[user_id]=[=](uint128_t x){
-            return symmetric_polynomial(x,r_B,a,b,c,p);
+        // berechne g(x) =f(x,r_B)
 
+        std::vector<boost::multiprecision::uint128_t> g_coeff(3); //Koeff für g(x)
+        int index =0;
+        for (int i=0; i<=d;i++){
+            //Berechne die Koeff - r_B ind f(x,y)
+            uint128_t coeff =0;
+            for(int j=0;i<=d;j++){
+                uint128_t term = coefficients[index]*pow(r_B,j); //r_B einsetzen 
+                coeff=(coeff+term)%p;
+                index ++;
+
+            }
+            g_coeff[i] = coeff;
+            
+        }
+        
+       //Lamba-Funktion für das individuelle Polynom
+        auto g_B_function =[=](uint128_t x){
+          uint128_t result=0;
+          for(int i=0;i<=d;i++){
+             result =(result +g_coeff[i]*pow(x,i))%p;
+          }
+          return result;
+
+    
         };
-        //Ausgabe zur Veranschaulichung
-        std::cout << " Individuelles Polynom für Benutzer" << user_id<< ":g_B(x) = f(x," << r_B <<")" <<std::endl;
-    }
-    return individual_polynomials;
+
+        //g_B funktion in die Map aufgenommen
+        individual_polynomials[user_id]= g_B_function;
+        //Debug ausgabe
+        std::cout << "Benutzer ID:  " <<user_id<<"g_B(x) =";
+
+        for(int i=0;i<=d;i++){
+            std::cout <<g_coeff[i] <<"*x^ "<<i;
+            if(i<d) std::cout <<"+";
+        }
+        std::cout << std::endl;
+    
+      }
+      return individual_polynomials;
 }
 
 //Generiert individuell Polynom, und sendet
@@ -130,34 +179,49 @@ void KGC::generate_and_send_key(){
 
 
     //Zufällige Koeff für sym Polynom
-    uint128_t a = random_element_gf(p);
-    uint128_t b = random_element_gf(p);
-    uint128_t c = random_element_gf(p);
+    
+    std::vector<boost::multiprecision::uint128_t> coefficients(9) ; //Anzahl der Koeffizeinten
 
-    std::cout << "a="<< a <<"b= "<< b << "c="<<c<< std::endl;
+    //Zufällige Keffizienten für das Polynom
+    for(size_t i =0; i<coefficients.size();i++){
+        coefficients[i]= random_element_gf(p);
+    }
 
     //generate  r_B für jede Benutzer
     generate_unique_public_values(p,num_users);
 
     //Indivdl Polynom generieren mit a,b,c
-    auto individual_polynomials = generate_individual_polynomials(a,b,c,p);
+    auto individual_polynomials = generate_individual_polynomials(d,p,coefficients);
 
     //Zähler zur Auswahl des iSocket für KGC
     int socket_selector =0;
 
 
     //für jede NA trans erstellen
-    for (const auto& [user_id,r_B] : public_values){
+    for(const auto& [user_id,r_B] : public_values){
+
         tlm::tlm_generic_payload trans; // Trans Objekt erstellen
         sc_core::sc_time delay = sc_core::SC_ZERO_TIME; //Verzögerung
 
 
         //koeff Vektor für jede Benutzer berechnen
-        uint128_t coeff_b = (b*r_B*r_B) % p;
-        uint128_t coeff_c = (c*r_B) %p;
+        auto g_B_function = individual_polynomials[user_id];
+        
         
         //Array zur Speicherung und Senden von Polynom(result) und r_B(pub_values)
-        uint128_t data_array[4]={a,coeff_b, coeff_c, r_B};
+        uint128_t data_array[10];
+        int index =0;
+        
+        //Berechne Koeff von r_B und speicher im data array
+        for(int i=0; i<=d;i++){
+            for(int j=0;j<=d;j++){
+               
+                data_array[index++] = g_B_function(1);
+            }
+        }
+
+        //füg r_B in Array
+        data_array[9] =r_B;
 
         //Transaktionsdaten einrichten
         trans.set_command(tlm::TLM_WRITE_COMMAND);
@@ -165,7 +229,7 @@ void KGC::generate_and_send_key(){
         trans.set_data_ptr(reinterpret_cast<unsigned char*>(&data_array)); //Zeiger auf die Daten
         trans.set_data_length(sizeof(data_array));
 
-        std::cout << "KGC: Send individuell für Benutzer:   " << user_id << ": a = " << a << ", coeff b =  " << coeff_b << ", coeff c = "<< coeff_c <<  std::endl;
+        std::cout << "KGC: Send individuell für Benutzer:   " << user_id << ": : " << data_array[9] <<  std::endl;
         
 
         //wähle iSock für KGC na1 bzw. na2

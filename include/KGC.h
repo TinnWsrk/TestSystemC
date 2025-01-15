@@ -42,18 +42,20 @@ public:
 
 
     //Berechnung des symmetrischen Polynoms
-    uint128_t symmetric_polynomial(uint128_t x, uint128_t y, uint128_t a, uint128_t b, uint128_t c, uint128_t p);
+    uint128_t symmetric_polynomial(uint128_t x, uint128_t y, uint128_t d,uint128_t coefficients[], uint128_t p);
     
 
     //gen public Value
     void generate_unique_public_values(uint128_t p, int num_users);
 
-    std::map<int, std::function<uint128_t(uint128_t)>>  generate_individual_polynomials (uint128_t a, uint128_t b, uint128_t c, uint128_t p);
+    std::map<int, std::function<uint128_t(uint128_t)>> generate_individual_polynomials (uint128_t d, uint128_t p, std::vector<boost::multiprecision::uint128_t>&coefficients);
 
     
    
 
 private:
+
+    uint128_t d=2;
     void generate_and_send_key();
 
     int num_users;

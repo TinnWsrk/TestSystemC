@@ -15,7 +15,7 @@ int sc_main(int argc, char* argv[]) {
     top.kgc.set_num_user(2);
 
     top.start_simulation();
-    top.start_key_exchange_process();
+    //top.start_key_exchange_process();
 
     std::cout << "Simulation beendet."<< std::endl;
 

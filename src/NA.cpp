@@ -17,16 +17,24 @@ void NA::b_transport_from_kgc(tlm::tlm_generic_payload& trans, sc_time& delay){
     if(cmd == tlm::TLM_WRITE_COMMAND){
         //Empfang Koeff und r_B
         uint128_t* received_coeffs = reinterpret_cast< uint128_t*>(trans.get_data_ptr()); //wandelt den Zeiger trans in uint* um
-        coeff_a = received_coeffs[0]; // a
-        coeff_b = received_coeffs[1]; //b*r_B
-        coeff_c = received_coeffs[2];
-        public_value = received_coeffs[3]; //r_B
+        coefficients.clear();
+        for (int i = 0; i < 9; i++)
+        {
+            coefficients.push_back(received_coeffs[i]);
+        }
 
+        public_value = received_coeffs[9]; //r_B speichern
         
+        std::cout<< "NA Empfangen von Benutzer ID:"<<trans.get_address()<<", Koeffizienten = [";
+        for (size_t i = 0; i < coefficients.size(); i++)
+        {
+            std::cout << coefficients[i];
+            if(i<coefficients.size()-1) {
 
-        //Ausgabe der Daten
-        std::cout << "NA:Emfangen Von Benuter-ID:" << trans.get_address() << 
-                    ", a = " << coeff_a << ", coeff b =" << coeff_b << ", coeff c = " << ", r_B =" << public_value << std::endl;
+                std::cout << ", ";
+            } 
+        }
+        std::cout << "j, r_B= " << public_value <<std::endl;
 
     }
     else{
@@ -56,7 +64,7 @@ void NA::b_transport_from_na(tlm::tlm_generic_payload& trans, sc_time& delay){
     }
     trans.set_response_status(tlm::TLM_OK_RESPONSE);
 }
-
+/*
 void NA::start_key_exchange(NA* other_na){
 
     if(public_value==0){
@@ -104,4 +112,4 @@ void NA::calculate_key(){
    share_key = key;
 
 
-}
+}*/

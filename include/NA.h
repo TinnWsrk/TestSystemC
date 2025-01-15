@@ -28,9 +28,9 @@ public:
     uint128_t public_value; //Öffentlicher Param
 
     uint128_t recieved_r_B;
-    uint128_t coeff_a;
-    uint128_t coeff_b;
-    uint128_t coeff_c;
+    
+    
+    //ID des aktuellen NA
     int id=0;
 
     //Konstruktor
@@ -48,10 +48,10 @@ public:
     void b_transport_from_kgc(tlm::tlm_generic_payload& trans, sc_core::sc_time& delay);
     void b_transport_from_na(tlm::tlm_generic_payload& trans, sc_core::sc_time& delay);
     //Schlüsselaustausch mit anderen NA
-    void start_key_exchange(NA* other_na);
+    //void start_key_exchange(NA* other_na);
 
 
-    void calculate_key();
+    //void calculate_key();
 
 private:
 
@@ -59,6 +59,7 @@ private:
     
     void init();
     uint128_t share_key; // gemeinsamer Schlüssel
+    std::vector<uint128_t> coefficients; //Dynamisch für Koeff gon g(x)
 
 
 

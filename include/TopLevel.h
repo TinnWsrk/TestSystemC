@@ -26,9 +26,9 @@ public:
 
         //SC_THREAD(start_key_exchange_process);
 
-        SC_METHOD(start_key_exchange_process);
-        dont_initialize();
-        sensitive << kgc_done_event;
+        //SC_METHOD(start_key_exchange_process);
+        //dont_initialize();
+        //sensitive << kgc_done_event;
     
     }
 

@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",                      
+                "/home/tinnwongsirikul/systemc-2.3.3/include",  
+                "/home/tinnwongsirikul/boost_1_80_0/include",            
+                "/home/tinnwongsirikul/systemc-2.3.3/include/tlm" 
+            ],
+            "defines": [
+                "SC_INCLUDE_FX",   
+                "SC_INCLUDE_DYNAMIC_PROCESSES" 
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

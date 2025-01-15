@@ -150,7 +150,7 @@ std::map <int, std::function<uint128_t(uint128_t)>> KGC::generate_individual_pol
 
     
         };
-        std::cout<<"Hallo hi"<< std::endl;
+       
 
         //g_B funktion in die Map aufgenommen
         individual_polynomials[user_id]= g_B_function;
@@ -167,6 +167,49 @@ std::map <int, std::function<uint128_t(uint128_t)>> KGC::generate_individual_pol
       return individual_polynomials;
 }
 
+// Gen sym Coeff
+void KGC:: generate_symmetric_coefficients(uint128_t p,std::vector<boost::multiprecision::uint128_t> &coefficients){
+
+    //Index für Koeff
+    uint128_t matrix [3][3];
+
+    for (size_t i = 0; i < 3; i++)
+    {
+        for (size_t j = 0; j<3; j++)
+        {
+            uint128_t num = random_element_gf(p);
+            matrix[i][j] =num;
+            matrix[j][i] = num;
+        }
+        
+    }
+
+    int id=0;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            coefficients[id++] = matrix[i][j];
+        }
+        
+    }
+    
+    std::cout << "Symmetrische Koeffizienten (a_ij) für f(x, y):" << std::endl;
+    int index = 0;
+    for (size_t i = 0; i < 3; i++) {
+        for (size_t j = 0; j < 3; j++) {
+            std::cout << "a_" << i << "," << j << " = " << coefficients[index] << " ";
+            index++;
+        }
+        std::cout << std::endl;
+    }
+    
+
+
+
+
+
+}
 //Generiert individuell Polynom, und sendet
 
 void KGC::generate_and_send_key(){
@@ -180,13 +223,10 @@ void KGC::generate_and_send_key(){
 
 
     //Zufällige Koeff für sym Polynom
-    
     std::vector<boost::multiprecision::uint128_t> coefficients(9) ; //Anzahl der Koeffizeinten
+   
 
-    //Zufällige Keffizienten für das Polynom
-    for(size_t i =0; i<coefficients.size();i++){
-        coefficients[i]= random_element_gf(p);
-    }
+    generate_symmetric_coefficients(p,coefficients);
 
     //generate  r_B für jede Benutzer
     generate_unique_public_values(p,num_users);

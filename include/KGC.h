@@ -57,11 +57,13 @@ private:
 
     uint128_t d=2;
     void generate_and_send_key();
+    void generate_symmetric_coefficients(uint128_t p, std::vector<boost::multiprecision::uint128_t> &coefficients);
 
     int num_users;
     std::map<int, uint128_t> public_values;
     
     std::map<int, std::function<uint128_t(uint128_t) >> individual_polynomials;
+   
 
 
     //Mem Variable Zufallsgenerator

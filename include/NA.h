@@ -61,6 +61,9 @@ private:
     uint128_t share_key; // gemeinsamer Schlüssel
     std::vector<uint128_t> coefficients; //Dynamisch für Koeff gon g(x)
 
+    
+    
+
 
 
 };

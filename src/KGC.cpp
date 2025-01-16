@@ -213,6 +213,7 @@ void KGC:: generate_symmetric_coefficients(uint128_t p,std::vector<boost::multip
 //Generiert individuell Polynom, und sendet
 
 void KGC::generate_and_send_key(){
+
      std::cout << "Start Key Generation and Send key"<< std::endl;
     //warte auf Start der Simulation
     wait(SC_ZERO_TIME);
@@ -256,7 +257,7 @@ void KGC::generate_and_send_key(){
         
         
         //Array zur Speicherung und Senden von Polynom(result) und r_B(pub_values)
-        uint128_t data_array[10];
+        uint128_t data_array[12];
         int index =0;
         
         //Berechne Koeff von r_B und speicher im data array

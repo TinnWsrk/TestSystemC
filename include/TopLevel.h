@@ -24,7 +24,7 @@ public:
         na1.iNANASocket.bind(na2.tNANASocket);
         na2.iNANASocket.bind(na1.tNANASocket);
 
-        SC_THREAD(start_key_exchange_process);
+        //SC_THREAD(start_key_exchange_process);
 
         SC_METHOD(start_key_exchange_process);
         dont_initialize();

@@ -27,7 +27,7 @@ void NA::b_transport_from_kgc(tlm::tlm_generic_payload& trans, sc_time& delay){
         prim =received_coeffs[10];
         
         std::cout<< "NA Empfangen von Benutzer ID:"<<trans.get_address()<<", Koeffizienten = [";
-        for (size_t i = 0; i < coefficients.size(); i++)
+        for (size_t i = 0; i < 9; i++)
         {
             std::cout << coefficients[i];
             if(i<coefficients.size()-1) {
@@ -43,8 +43,11 @@ void NA::b_transport_from_kgc(tlm::tlm_generic_payload& trans, sc_time& delay){
     else{
         std::cout << "Errorrrrrrrrrr" << std::endl;
     }
+   
 
     trans.set_response_status(tlm::TLM_OK_RESPONSE);
+   
+
     
 }
 

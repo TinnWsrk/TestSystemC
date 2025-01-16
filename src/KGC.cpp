@@ -213,9 +213,10 @@ void KGC:: generate_symmetric_coefficients(uint128_t p,std::vector<boost::multip
 //Generiert individuell Polynom, und sendet
 
 void KGC::generate_and_send_key(){
-
+     std::cout << "Start Key Generation and Send key"<< std::endl;
     //warte auf Start der Simulation
     wait(SC_ZERO_TIME);
+    
 
     //Zufallsprimzahl p generieren.
     uint128_t p = generate_random_prime();
@@ -237,9 +238,14 @@ void KGC::generate_and_send_key(){
     //Zähler zur Auswahl des iSocket für KGC
     int socket_selector =0;
 
+    int user_count=0;
 
     //für jede NA trans erstellen
     for(const auto& [user_id,r_B] : public_values){
+
+        //Wenn alle Benutzer verarbeitet wurden 
+        //Bzw. wenn die Anzahl num_user erreicht, dann stop
+        
 
         tlm::tlm_generic_payload trans; // Trans Objekt erstellen
         sc_core::sc_time delay = sc_core::SC_ZERO_TIME; //Verzögerung
@@ -256,8 +262,14 @@ void KGC::generate_and_send_key(){
         //Berechne Koeff von r_B und speicher im data array
         for(int i=0; i<=d;i++){
             for(int j=0;j<=d;j++){
+
+                if(index==10){
+                    std::cout <<"Fehler in Index" <<std::endl;
+                }
                
-                data_array[index++] = g_B_function(1);
+                data_array[index] = g_B_function(1);
+                
+                index++;
             }
         }
 
@@ -274,6 +286,7 @@ void KGC::generate_and_send_key(){
 
         std::cout << "KGC: Send individuell für Benutzer:   " << user_id << ": : " << data_array[9] <<  std::endl;
         
+         std::cout << "Anzahl Benutzer "<< user_count <<std::endl;
 
         //wähle iSock für KGC na1 bzw. na2
 
@@ -284,13 +297,21 @@ void KGC::generate_and_send_key(){
             iKGCSocket2->b_transport(trans, delay); //trans über iSocket 2 senden
             socket_selector=0; //umschalten zurück auf 0
         }
-        
+       std::cout << "SSSSSS"<< std::endl;
+ 
 
         if(trans.get_response_status()!= tlm::TLM_OK_RESPONSE){
             std::cerr << "KGC:Fehler beim Senden der Transaktion an Benutzer" << user_id << std::endl;
         }
 
+        user_count ++; //ein Benutzer abgearbeitet und inkrementiert
+        
+
+       
+
 
     }
+     std::cout << "Alle Benutzer verarbeitet. KGC geht in ruhe Modus :))))"<< std::endl;
+     
 }
 

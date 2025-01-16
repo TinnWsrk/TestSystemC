@@ -7,10 +7,13 @@
 void TopLevel::start_simulation(){
 
     std::cout <<"Simulation Starttttttt ....." << std::endl;
-    sc_start(10,SC_NS);
+    sc_start(10,SC_MS);
+    std::cout <<"ist die start Simulation abgeschlossen?"<< std::endl;
 
     kgc_done_event.notify();
 }
+
+    
 
 
 

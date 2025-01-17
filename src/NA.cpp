@@ -71,7 +71,7 @@ void NA::b_transport_from_na(tlm::tlm_generic_payload& trans, sc_time& delay){
 }
 
 void NA::start_key_exchange(NA* other_na){
-    std::cout <<"Hiiiiiiiiiiiiiiiiiiiiiiiiiiii"<< id<<"hat Fehler"<< std::endl;
+    std::cout <<"Benutzer-ID -"<< id<<"start key-exchange"<< std::endl;
 
     if(public_value==0){
         std::cerr << "NA: hat kein r_B von KGC" << std::endl;
@@ -107,14 +107,24 @@ uint128_t  NA::calculate_user_polynomial(std::vector<boost::multiprecision::uint
 
     //g_U(x) für d=2
     int index =0;
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i <= 2; i++)
     {
-        for (int j = 0; j < 2; j++)
+        for (int j = 0; j <= 2; j++)
         {
 
             if(index<coefficients.size()){
-            uint128_t term = coefficients[index]*boost::multiprecision::pow(x,i)*boost::multiprecision::pow(r_B,j);
+            uint128_t term = coefficients[index]*boost::multiprecision::pow(x,i);
+            
+
+
+            
             result = (result+term)%prim; // mod p
+
+            std::cout<<"p =" <<prim <<" und r_B = "<< r_B<<std::endl; 
+
+
+            std::cout<<coefficients[index]<<" * "<< x << "^ "<<i<< "*  "<<r_B<< "^ "<<j<<" = "<<result<< std::endl;
+
             index++;
             }else{
                 std::cerr << "Fehler:: Index überschreitet"<< std::endl;

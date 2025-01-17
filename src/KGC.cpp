@@ -19,13 +19,14 @@ KGC::KGC(sc_module_name name) : sc_module(name), iKGCSocket("iKGCSocket"){
 //Generiernung p
 
 uint128_t KGC:: generate_random_prime(){
+    return 61;
     
     /*
     boost::random::mt19937 gen(static_cast<unsigned int>(time(0)));
     // bereich 10 e 15 bis 10 e 16
     boost:: random::uniform_int_distribution<uint128_t> dist(1e15,1e16);*/
 
-
+/*
     std::random_device rd;
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dist64(0,std::numeric_limits<uint64_t>::max());
@@ -50,6 +51,7 @@ uint128_t KGC:: generate_random_prime(){
             return candidate; //p gefunden, return
         }
     }
+    */
 }
 
 
@@ -63,7 +65,8 @@ void KGC::set_num_user(int num_users)
 //generiert Zufallszahlen aus GF(p)
 uint128_t KGC::random_element_gf(uint128_t p){
     //boost::random::mt19937 gen(static_cast<unsigned int>(time(0)));
-    boost::random::uniform_int_distribution <uint128_t> dist (0,p-1);
+    //boost::random::uniform_int_distribution <uint128_t> dist (0,p-1);
+    boost::random::uniform_int_distribution<uint128_t>dist(2,p-1);
     return dist(gen);
 }
 
@@ -114,10 +117,10 @@ void KGC::generate_unique_public_values(uint128_t p, int num_users){
 }
 
 //Generiertung individueller Polynome
-std::map <int, std::function<uint128_t(uint128_t)>> KGC::generate_individual_polynomials(uint128_t d,uint128_t p, std::vector<boost::multiprecision::uint128_t>&coefficients){
+std::map <int, std::vector<boost::multiprecision::uint128_t>> KGC::generate_individual_polynomials(uint128_t d,uint128_t p, std::vector<boost::multiprecision::uint128_t>&coefficients){
     
 
-    std::map<int, std::function<uint128_t(uint128_t)>> individual_polynomials;
+    std::map<int, std::vector<uint128_t>> individual_polynomials;
     
     
 
@@ -125,46 +128,52 @@ std::map <int, std::function<uint128_t(uint128_t)>> KGC::generate_individual_pol
     for(const auto& [user_id, r_B]: public_values){
         // berechne g(x) =f(x,r_B)
 
-        std::vector<boost::multiprecision::uint128_t> g_coeff(3); //Koeff für g(x)
+        std::vector<boost::multiprecision::uint128_t> g_coeff(9); //Koeff für g(x)
         int index =0;
         for (int i=0; i<=d;i++){
             //Berechne die Koeff - r_B ind f(x,y)
-            uint128_t coeff =0;
+           
             for(int j=0;j<=d;j++){
-                uint128_t term = coefficients[index]*pow(r_B,j); //r_B einsetzen 
-                coeff=(coeff+term)%p;
+                //std::cout<< "Coeff---"<<coefficients[index]<< std::endl;
+
+                uint128_t term = (coefficients[index]*pow(r_B,j))%p; //r_B einsetzen 
+                g_coeff[index]=term;
+                std::cout<< "Koefff=  "<<term<< " = " <<coefficients[index]<<" * "<< r_B<<"^ "<<j<< std::endl;
+                
                 index ++;
 
             }
-            g_coeff[i] = coeff;
+            //g_coeff[i] = coeff;
             
         }
-        
-       //Lamba-Funktion für das individuelle Polynom
-        auto g_B_function =[=](uint128_t x){
-          uint128_t result=0;
-          for(int i=0;i<=d;i++){
-             result =(result +g_coeff[i]*pow(x,i))%p;
-          }
-          return result;
-
-    
-        };
-       
-
-        //g_B funktion in die Map aufgenommen
-        individual_polynomials[user_id]= g_B_function;
-        //Debug ausgabe
-        std::cout << "Benutzer ID:  " <<user_id<<"g_B(x) =";
-
-        for(int i=0;i<=d;i++){
-            std::cout <<g_coeff[i] <<"*x^ "<<i;
-            if(i<d) std::cout <<"+";
+        std::cout<< "Coef sind jetzt:";
+        for (size_t i = 0; i < g_coeff.size(); i++)   {
+            std::cout <<g_coeff[i];
+            if(i!=g_coeff.size()-1){
+                std::cout<<", ";
+            }
         }
-        std::cout << std::endl;
+        individual_polynomials[user_id] = g_coeff;
+        for (const auto& entry : individual_polynomials) {
+    std::cout << "  Benutzer ID: " << entry.first << " -> g_coeff: ";
+    for (const auto& coeff : entry.second) {
+        std::cout << coeff << " ";  // Ausgabe jedes Koeffizienten im Vektor
+    }
+    std::cout << std::endl;
+}
+        
+       
+        
+
+        
     
-      }
-      return individual_polynomials;
+      
+
+      //std::cout<<"Hier wird die Koeffizienten die Benutzer berechnet =="<< individual_polynomials<< std::endl;
+      
+    }
+    return individual_polynomials;
+
 }
 
 // Gen sym Coeff
@@ -244,8 +253,7 @@ void KGC::generate_and_send_key(){
     //für jede NA trans erstellen
     for(const auto& [user_id,r_B] : public_values){
 
-        //Wenn alle Benutzer verarbeitet wurden 
-        //Bzw. wenn die Anzahl num_user erreicht, dann stop
+        
         
 
         tlm::tlm_generic_payload trans; // Trans Objekt erstellen
@@ -253,31 +261,23 @@ void KGC::generate_and_send_key(){
 
 
         //koeff Vektor für jede Benutzer berechnen
-        auto g_B_function = individual_polynomials[user_id];
+        auto g_coeff_vector = individual_polynomials[user_id];
         
         
         //Array zur Speicherung und Senden von Polynom(result) und r_B(pub_values)
-        uint128_t data_array[12];
-        int index =0;
+        //std::vector<uint128_t>data_array;
+        std::array<boost::multiprecision::uint128_t,12> data_array;
+        
         
         //Berechne Koeff von r_B und speicher im data array
-        for(int i=0; i<=d;i++){
-            for(int j=0;j<=d;j++){
-
-                if(index==10){
-                    std::cout <<"Fehler in Index" <<std::endl;
-                }
-               
-                data_array[index] = g_B_function(1);
-                
-                index++;
-            }
+        for (int i =0;i<9;++i){
+            data_array[i]=g_coeff_vector[i];
         }
 
         //füg r_B in Array
-        data_array[9] =r_B;
+        data_array[9]=r_B;
         //add p
-        data_array[10] =p;
+        data_array[10]=p;
 
         //Transaktionsdaten einrichten
         trans.set_command(tlm::TLM_WRITE_COMMAND);

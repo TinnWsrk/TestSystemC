@@ -48,7 +48,7 @@ public:
     //gen public Value
     void generate_unique_public_values(uint128_t p, int num_users);
 
-    std::map<int, std::function<uint128_t(uint128_t)>> generate_individual_polynomials (uint128_t d, uint128_t p, std::vector<boost::multiprecision::uint128_t>&coefficients);
+    std::map<int, std::vector<boost::multiprecision::uint128_t>> generate_individual_polynomials (uint128_t d, uint128_t p, std::vector<boost::multiprecision::uint128_t>&coefficients);
 
     
    

@@ -94,7 +94,6 @@ MySystemCProject: CMakeFiles/MySystemCProject.dir/src/main.cpp.o
 MySystemCProject: CMakeFiles/MySystemCProject.dir/build.make
 MySystemCProject: libMySystemCProjectLib.a
 MySystemCProject: /home/tinnwongsirikul/systemc-2.3.3/lib-linux64/libsystemc.so
-MySystemCProject: /home/tinnwongsirikul/cryptopp/libcrptopp.a
 MySystemCProject: CMakeFiles/MySystemCProject.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/tinnwongsirikul/Schreibtisch/TestSystemC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable MySystemCProject"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MySystemCProject.dir/link.txt --verbose=$(VERBOSE)

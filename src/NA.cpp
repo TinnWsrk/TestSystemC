@@ -7,16 +7,12 @@
 #include <boost/multiprecision/cpp_int.hpp>
 
 
-#include <cryptopp/osrng.h>
-#include <cryptopp/aes.h>
-#include<cryptopp/modes.h>
-#include <cryptopp/filters.h>
+
 
 
 #include "KGC.h"
 
 using uint128_t = boost::multiprecision::uint128_t;
-using namespace CryptoPP;
 
 void NA::b_transport_from_kgc(tlm::tlm_generic_payload& trans, sc_time& delay){
     auto cmd = trans.get_command();

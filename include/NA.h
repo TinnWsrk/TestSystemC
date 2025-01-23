@@ -52,7 +52,7 @@ public:
 
 
     void calculate_key();
-    uint128_t calculate_user_polynomial(std::vector<boost::multiprecision::uint128_t>&coefficients, uint128_t,uint128_t x, uint128_t p);
+    uint128_t calculate_user_polynomial(std::vector<boost::multiprecision::uint128_t>&coefficients,uint128_t x, uint128_t p);
 
 private:
 
@@ -61,6 +61,12 @@ private:
     void init();
     uint128_t share_key; // gemeinsamer Schlüssel
     std::vector<uint128_t> coefficients; //Dynamisch für Koeff gon g(x)
+
+    std::string generate_session_key();
+    std::string encrypt_session_key(const std::string& session_key, const std::string& shared_key);
+
+
+
     uint128_t prim;
 
     

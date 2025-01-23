@@ -6,6 +6,7 @@
 #include <iostream>
 #include <map>
 #include <set>
+#include<chrono>
 
 using uint128_t = boost::multiprecision::uint128_t;
 /*
@@ -19,14 +20,14 @@ KGC::KGC(sc_module_name name) : sc_module(name), iKGCSocket("iKGCSocket"){
 //Generiernung p
 
 uint128_t KGC:: generate_random_prime(){
-    return 61;
     
-    /*
-    boost::random::mt19937 gen(static_cast<unsigned int>(time(0)));
+    return 3701592203; 
+    
+    //boost::random::mt19937 gen(static_cast<unsigned int>(time(0)));
     // bereich 10 e 15 bis 10 e 16
-    boost:: random::uniform_int_distribution<uint128_t> dist(1e15,1e16);*/
+    //boost:: random::uniform_int_distribution<uint128_t> dist(1e15,1e16);
 
-/*
+
     std::random_device rd;
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dist64(0,std::numeric_limits<uint64_t>::max());
@@ -38,6 +39,7 @@ uint128_t KGC:: generate_random_prime(){
 
     while(true){
         uint64_t high = dist64(gen); // obere 64 bit
+        
         uint64_t low = dist64(gen);
 
 
@@ -51,7 +53,7 @@ uint128_t KGC:: generate_random_prime(){
             return candidate; //p gefunden, return
         }
     }
-    */
+    
 }
 
 
@@ -64,7 +66,8 @@ void KGC::set_num_user(int num_users)
 
 //generiert Zufallszahlen aus GF(p)
 uint128_t KGC::random_element_gf(uint128_t p){
-    //boost::random::mt19937 gen(static_cast<unsigned int>(time(0)));
+    unsigned int seed =static_cast<unsigned int>(std::chrono::steady_clock::now().time_since_epoch().count());
+    boost::random::mt19937 gen(seed);
     //boost::random::uniform_int_distribution <uint128_t> dist (0,p-1);
     boost::random::uniform_int_distribution<uint128_t>dist(2,p-1);
     return dist(gen);
@@ -97,7 +100,8 @@ uint128_t KGC::symmetric_polynomial(uint128_t x, uint128_t y, uint128_t d,uint12
 void KGC::generate_unique_public_values(uint128_t p, int num_users){
 
     std::set<uint128_t> unique_values; //Set zur Überprüng von Unique
-    boost::random::mt19937 gen(static_cast<unsigned int>(time(0))); //Zufallszahlengenerator
+    unsigned int seed =static_cast<unsigned int>(std::chrono::steady_clock::now().time_since_epoch().count());
+    boost::random::mt19937 gen(seed); //Zufallszahlengenerator
     
     for(int i=0; i< num_users; ++i){
         uint128_t value;
@@ -138,7 +142,7 @@ std::map <int, std::vector<boost::multiprecision::uint128_t>> KGC::generate_indi
 
                 uint128_t term = (coefficients[index]*pow(r_B,j))%p; //r_B einsetzen 
                 g_coeff[index]=term;
-                std::cout<< "Koefff=  "<<term<< " = " <<coefficients[index]<<" * "<< r_B<<"^ "<<j<< std::endl;
+                //std::cout<< "Koefff=  "<<term<< " = " <<coefficients[index]<<" * "<< r_B<<"^ "<<j<< std::endl;
                 
                 index ++;
 
@@ -154,13 +158,18 @@ std::map <int, std::vector<boost::multiprecision::uint128_t>> KGC::generate_indi
             }
         }
         individual_polynomials[user_id] = g_coeff;
-        for (const auto& entry : individual_polynomials) {
+
+        /*
+    for (const auto& entry : individual_polynomials) {
     std::cout << "  Benutzer ID: " << entry.first << " -> g_coeff: ";
     for (const auto& coeff : entry.second) {
         std::cout << coeff << " ";  // Ausgabe jedes Koeffizienten im Vektor
     }
     std::cout << std::endl;
-}
+    }
+        */
+        
+
         
        
         
@@ -202,8 +211,8 @@ void KGC:: generate_symmetric_coefficients(uint128_t p,std::vector<boost::multip
         }
         
     }
-    
-    std::cout << "Symmetrische Koeffizienten (a_ij) für f(x, y):" << std::endl;
+    /*
+     std::cout << "Symmetrische Koeffizienten (a_ij) für f(x, y):" << std::endl;
     int index = 0;
     for (size_t i = 0; i < 3; i++) {
         for (size_t j = 0; j < 3; j++) {
@@ -212,10 +221,9 @@ void KGC:: generate_symmetric_coefficients(uint128_t p,std::vector<boost::multip
         }
         std::cout << std::endl;
     }
+    */
     
-
-
-
+   
 
 
 }

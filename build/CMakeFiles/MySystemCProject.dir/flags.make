@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/tinnwongsirikul/systemc-2.3.3/include -I/home/tinnwongsirikul/Schreibtisch/TestSystemC/include
+CXX_INCLUDES = -I/home/tinnwongsirikul/systemc-2.3.3/include -I/home/tinnwongsirikul/cryptopp/cryptopp -I/home/tinnwongsirikul/Schreibtisch/TestSystemC/include
 
 CXX_FLAGS = -std=gnu++17
 

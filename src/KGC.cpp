@@ -49,7 +49,7 @@ uint128_t KGC:: generate_random_prime(){
 
         candidate |= 1; //ungerade Zahl
 
-        if(miller_rabin_test(candidate,25)){
+        if(miller_rabin_test(candidate,25)){ 
             return candidate; //p gefunden, return
         }
     }
@@ -132,16 +132,31 @@ std::map <int, std::vector<boost::multiprecision::uint128_t>> KGC::generate_indi
     for(const auto& [user_id, r_B]: public_values){
         // berechne g(x) =f(x,r_B)
 
+        uint128_t max_uint128 = std::numeric_limits<uint128_t>::max();
         std::vector<boost::multiprecision::uint128_t> g_coeff(9); //Koeff für g(x)
         int index =0;
+        uint128_t term_128=0;
         for (int i=0; i<=d;i++){
             //Berechne die Koeff - r_B ind f(x,y)
            
             for(int j=0;j<=d;j++){
                 //std::cout<< "Coeff---"<<coefficients[index]<< std::endl;
 
-                uint128_t term = (coefficients[index]*pow(r_B,j))%p; //r_B einsetzen 
-                g_coeff[index]=term;
+                boost::multiprecision::cpp_int term = (coefficients[index]*pow(r_B,j))%p; //r_B einsetzen 
+                if(340282366920938463463374607431768211456 >max_uint128){
+                    std::cout <<"Overflow -----------------" << std::endl;
+                }
+                else{
+                    std::cout<< "Die berechnung bevor mod ist =  "<< (coefficients[index]*pow(r_B,j)) <<std::endl;
+
+                    std::cout << "Wirklich kein Overflow? max Wert ist "<< max_uint128 << endl;
+                }
+
+                
+                
+                
+                term_128 = static_cast<uint128_t>(term);
+                g_coeff[index]=term_128;
                 //std::cout<< "Koefff=  "<<term<< " = " <<coefficients[index]<<" * "<< r_B<<"^ "<<j<< std::endl;
                 
                 index ++;

@@ -40,7 +40,7 @@ target_link_libraries(MySystemCProjectLib
     PUBLIC
         #SystemC::systemc
         ${SYSTEMC_HOME}/lib-linux64/libsystemc.so
-        ${CRYPTO_HOME}/libcrptopp.a
+        ${CRYPTO_HOME}/libcryptopp.a
 )
 
 # Executable erstellen

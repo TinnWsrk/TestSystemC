@@ -112,8 +112,8 @@ void NA::start_key_exchange(NA* other_na){
 }
 
 uint128_t  NA::calculate_user_polynomial(std::vector<boost::multiprecision::uint128_t>&coefficients,uint128_t x, uint128_t p){
-    uint128_t result =0;
-
+    boost::multiprecision::cpp_int result =0;
+    uint128_t result_128 =0;
     //g_U(x) für d=2
     int index =0;
     for (int i = 0; i <= 2; i++)
@@ -122,7 +122,7 @@ uint128_t  NA::calculate_user_polynomial(std::vector<boost::multiprecision::uint
         {
 
             if(index<coefficients.size()){
-            uint128_t term = coefficients[index]*boost::multiprecision::pow(x,i);
+            boost::multiprecision::cpp_int term = coefficients[index]*boost::multiprecision::pow(x,i);
             
 
 
@@ -142,7 +142,9 @@ uint128_t  NA::calculate_user_polynomial(std::vector<boost::multiprecision::uint
         }
         
     }
-    return result;
+
+    result_128 = static_cast<uint128_t>(result%p);
+    return result_128;
     
 }
 

@@ -118,7 +118,7 @@ uint128_t  NA::calculate_user_polynomial(std::vector<boost::multiprecision::uint
         {
 
             if(index<coefficients.size()){
-            uint128_t term = coefficients[index]*boost::multiprecision::pow(x,i);
+            uint128_t term = (coefficients[index]*boost::multiprecision::powm(x,i,p)%p);
             
 
 

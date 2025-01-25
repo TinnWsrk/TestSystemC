@@ -21,7 +21,7 @@ KGC::KGC(sc_module_name name) : sc_module(name), iKGCSocket("iKGCSocket"){
 
 uint128_t KGC:: generate_random_prime(){
     
-    return 3701592203; 
+    //return 13; 
     
     //boost::random::mt19937 gen(static_cast<unsigned int>(time(0)));
     // bereich 10 e 15 bis 10 e 16
@@ -49,7 +49,7 @@ uint128_t KGC:: generate_random_prime(){
 
         candidate |= 1; //ungerade Zahl
 
-        if(miller_rabin_test(candidate,25)){
+        if(miller_rabin_test(candidate,25)){ 
             return candidate; //p gefunden, return
         }
     }
@@ -74,6 +74,7 @@ uint128_t KGC::random_element_gf(uint128_t p){
 }
 
 //methode zur Berechnung sysmmetrischen Polynoms
+/*
 uint128_t KGC::symmetric_polynomial(uint128_t x, uint128_t y, uint128_t d,uint128_t coefficients[], uint128_t p){
     using boost::multiprecision::pow;
 
@@ -94,7 +95,7 @@ uint128_t KGC::symmetric_polynomial(uint128_t x, uint128_t y, uint128_t d,uint12
     
     return result;
 
-}
+}*/
 //öffentliche Werte geniereieren, unique Param
 
 void KGC::generate_unique_public_values(uint128_t p, int num_users){
@@ -132,16 +133,20 @@ std::map <int, std::vector<boost::multiprecision::uint128_t>> KGC::generate_indi
     for(const auto& [user_id, r_B]: public_values){
         // berechne g(x) =f(x,r_B)
 
+        uint128_t max_uint128 = std::numeric_limits<uint128_t>::max();
         std::vector<boost::multiprecision::uint128_t> g_coeff(9); //Koeff für g(x)
         int index =0;
+        uint128_t term_128=0;
         for (int i=0; i<=d;i++){
             //Berechne die Koeff - r_B ind f(x,y)
            
             for(int j=0;j<=d;j++){
                 //std::cout<< "Coeff---"<<coefficients[index]<< std::endl;
 
-                uint128_t term = (coefficients[index]*pow(r_B,j))%p; //r_B einsetzen 
-                g_coeff[index]=term;
+                boost::multiprecision::cpp_int term = (coefficients[index]*powm(r_B,j,p))%p; //r_B einsetzen 
+                
+                term_128 = static_cast<uint128_t>(term);
+                g_coeff[index]=term_128;
                 //std::cout<< "Koefff=  "<<term<< " = " <<coefficients[index]<<" * "<< r_B<<"^ "<<j<< std::endl;
                 
                 index ++;

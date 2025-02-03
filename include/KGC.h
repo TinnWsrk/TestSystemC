@@ -55,7 +55,7 @@ public:
 
 private:
 
-    uint128_t d=2;
+    uint128_t d=1;
     void generate_and_send_key();
     void generate_symmetric_coefficients(uint128_t p, std::vector<boost::multiprecision::uint128_t> &coefficients);
 

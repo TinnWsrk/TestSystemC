@@ -21,7 +21,7 @@ KGC::KGC(sc_module_name name) : sc_module(name), iKGCSocket("iKGCSocket"){
 
 uint128_t KGC:: generate_random_prime(){
     
-    //return 13; 
+    //return 7; 
     
     //boost::random::mt19937 gen(static_cast<unsigned int>(time(0)));
     // bereich 10 e 15 bis 10 e 16
@@ -131,30 +131,28 @@ std::map <int, std::vector<boost::multiprecision::uint128_t>> KGC::generate_indi
 
     //Iteriert über Benutzer und die öff Werte
     for(const auto& [user_id, r_B]: public_values){
-        // berechne g(x) =f(x,r_B)
+        
 
+        //berechnen coefficients
+        
+        boost::multiprecision::cpp_int term = ((coefficients[0]+ coefficients[1]*r_B) % p);
+        boost::multiprecision::cpp_int term2= ((coefficients[1]+ coefficients[2]*r_B) % p);
+
+        uint128_t coef = static_cast<uint128_t>(term);
+        uint128_t coef2 = static_cast<uint128_t>(term2);       
+
+         // berechne g(x) =f(x,r_B)
         uint128_t max_uint128 = std::numeric_limits<uint128_t>::max();
-        std::vector<boost::multiprecision::uint128_t> g_coeff(9); //Koeff für g(x)
-        int index =0;
-        uint128_t term_128=0;
-        for (int i=0; i<=d;i++){
-            //Berechne die Koeff - r_B ind f(x,y)
+        std::vector<boost::multiprecision::uint128_t> g_coeff(2); //Koeff für g(x)
+
+            g_coeff[0]=coef;
+            g_coeff[1]=coef2;
+          
            
-            for(int j=0;j<=d;j++){
-                //std::cout<< "Coeff---"<<coefficients[index]<< std::endl;
-
-                boost::multiprecision::cpp_int term = (coefficients[index]*powm(r_B,j,p))%p; //r_B einsetzen 
-                
-                term_128 = static_cast<uint128_t>(term);
-                g_coeff[index]=term_128;
-                //std::cout<< "Koefff=  "<<term<< " = " <<coefficients[index]<<" * "<< r_B<<"^ "<<j<< std::endl;
-                
-                index ++;
-
-            }
+            
             //g_coeff[i] = coeff;
             
-        }
+        
         std::cout<< "Coef sind jetzt:";
         for (size_t i = 0; i < g_coeff.size(); i++)   {
             std::cout <<g_coeff[i];
@@ -192,8 +190,20 @@ std::map <int, std::vector<boost::multiprecision::uint128_t>> KGC::generate_indi
 
 // Gen sym Coeff
 void KGC:: generate_symmetric_coefficients(uint128_t p,std::vector<boost::multiprecision::uint128_t> &coefficients){
+ 
+    uint128_t num; //Kofficient Element für Vektor
+
+    for (int i = 0; i < 3; i++)
+    {
+
+       coefficients[i] = random_element_gf(p);
+
+
+    }
+    
 
     //Index für Koeff
+    /*
     uint128_t matrix [3][3];
 
     for (size_t i = 0; i < 3; i++)
@@ -216,20 +226,9 @@ void KGC:: generate_symmetric_coefficients(uint128_t p,std::vector<boost::multip
         }
         
     }
-    /*
-     std::cout << "Symmetrische Koeffizienten (a_ij) für f(x, y):" << std::endl;
-    int index = 0;
-    for (size_t i = 0; i < 3; i++) {
-        for (size_t j = 0; j < 3; j++) {
-            std::cout << "a_" << i << "," << j << " = " << coefficients[index] << " ";
-            index++;
-        }
-        std::cout << std::endl;
-    }
     */
     
    
-
 
 }
 //Generiert individuell Polynom, und sendet
@@ -247,10 +246,15 @@ void KGC::generate_and_send_key(){
 
 
     //Zufällige Koeff für sym Polynom
-    std::vector<boost::multiprecision::uint128_t> coefficients(9) ; //Anzahl der Koeffizeinten
+    std::vector<boost::multiprecision::uint128_t> coefficients(3) ; //Anzahl der Koeffizeinten
    
 
     generate_symmetric_coefficients(p,coefficients);
+    std::cout << "Coefficients: ";
+    for (const auto& value : coefficients) {
+        std::cout << value << " ";
+    }
+    std::cout << std::endl;
 
     //generate  r_B für jede Benutzer
     generate_unique_public_values(p,num_users);
@@ -279,18 +283,18 @@ void KGC::generate_and_send_key(){
         
         //Array zur Speicherung und Senden von Polynom(result) und r_B(pub_values)
         //std::vector<uint128_t>data_array;
-        std::array<boost::multiprecision::uint128_t,12> data_array;
+        std::array<boost::multiprecision::uint128_t,4> data_array;
         
         
         //Berechne Koeff von r_B und speicher im data array
-        for (int i =0;i<9;++i){
+        for (int i =0;i<2;++i){
             data_array[i]=g_coeff_vector[i];
         }
 
         //füg r_B in Array
-        data_array[9]=r_B;
+        data_array[2]=r_B;
         //add p
-        data_array[10]=p;
+        data_array[3]=p;
 
         //Transaktionsdaten einrichten
         trans.set_command(tlm::TLM_WRITE_COMMAND);
@@ -298,9 +302,9 @@ void KGC::generate_and_send_key(){
         trans.set_data_ptr(reinterpret_cast<unsigned char*>(&data_array)); //Zeiger auf die Daten
         trans.set_data_length(sizeof(data_array));
 
-        std::cout << "KGC: Send individuell für Benutzer:   " << user_id << ": : " << data_array[9] <<  std::endl;
+        std::cout << "KGC: Send individuell für Benutzer:   " << user_id << ": : " << data_array[3] <<  std::endl;
         
-         std::cout << "Anzahl Benutzer "<< user_count <<std::endl;
+        std::cout << "Anzahl Benutzer "<< user_count <<std::endl;
 
         //wähle iSock für KGC na1 bzw. na2
 
@@ -311,7 +315,7 @@ void KGC::generate_and_send_key(){
             iKGCSocket2->b_transport(trans, delay); //trans über iSocket 2 senden
             socket_selector=0; //umschalten zurück auf 0
         }
-       std::cout << "SSSSSS"<< std::endl;
+       
  
 
         if(trans.get_response_status()!= tlm::TLM_OK_RESPONSE){

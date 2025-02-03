@@ -23,16 +23,16 @@ void NA::b_transport_from_kgc(tlm::tlm_generic_payload& trans, sc_time& delay){
         //Empfang Koeff und r_B
         uint128_t* received_coeffs = reinterpret_cast< uint128_t*>(trans.get_data_ptr()); //wandelt den Zeiger trans in uint* um
         coefficients.clear();
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 2; i++)
         {
             coefficients.push_back(received_coeffs[i]);
         }
 
-        public_value = received_coeffs[9]; //r_B speichern
-        prim =received_coeffs[10];
+        public_value = received_coeffs[2]; //r_B speichern
+        prim =received_coeffs[3];
         
         std::cout<< "NA Empfangen von Benutzer ID:"<<trans.get_address()<<", Koeffizienten = [";
-        for (size_t i = 0; i < 9; i++)
+        for (size_t i = 0; i < 2; i++)
         {
             std::cout << coefficients[i];
             if(i<coefficients.size()-1) {
@@ -108,36 +108,39 @@ void NA::start_key_exchange(NA* other_na){
 }
 
 uint128_t  NA::calculate_user_polynomial(std::vector<boost::multiprecision::uint128_t>&coefficients,uint128_t x, uint128_t p){
-    uint128_t result =0;
-
+   
+     uint128_t result;
     //g_U(x) für d=2
     int index =0;
-    for (int i = 0; i <= 2; i++)
-    {
-        for (int j = 0; j <= 2; j++)
-        {
+    
+    
+        
+        
 
             if(index<coefficients.size()){
-            uint128_t term = (coefficients[index]*boost::multiprecision::powm(x,i,p)%p);
+
+            //uint128_t term = (coefficients[index]*boost::multiprecision::powm(x,i,p)%p);
+            boost::multiprecision::cpp_int term = (coefficients[0]+ coefficients[1]*x)%p;
+            
+
+           result=static_cast<uint128_t>(term);
+            
+
             
 
 
+
             
-            result = (result+term)%prim; // mod p
-            /*
-            std::cout<<"p =" <<prim <<" und r_B = "<< r_B<<std::endl; 
-
-
-            std::cout<<coefficients[index]<<" * "<< x << "^ "<<i<< "*  "<<r_B<< "^ "<<j<<" = "<<result<< std::endl;
-            */
+            
+            
             index++;
             }else{
                 std::cerr << "Fehler:: Index überschreitet"<< std::endl;
                 return 0;
             }
-        }
         
-    }
+        
+   
     return result;
     
 }
@@ -153,7 +156,7 @@ void NA::calculate_key(){
    share_key = calculate_user_polynomial(coefficients,recieved_r_B,prim);
 
    //Key ausgeben
-   std::cout <<"NA-"<< id<<"---->>>> Schlüssel ist "<<share_key <<" +++++"<< std::endl;
+   std::cout <<"NA-"<< id<<"---->>>> Schlüssel ist "<<std::hex <<share_key <<" +++++"<< std::endl;
 
 }
 

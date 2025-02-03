@@ -59,6 +59,11 @@
         "cinttypes": "cpp",
         "typeindex": "cpp",
         "*.ipp": "cpp",
-        "format": "cpp"
+        "format": "cpp",
+        "charconv": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp",
+        "span": "cpp",
+        "variant": "cpp"
     }
 }

@@ -162,26 +162,7 @@ std::map <int, std::vector<boost::multiprecision::uint128_t>> KGC::generate_indi
         }
         individual_polynomials[user_id] = g_coeff;
 
-        /*
-    for (const auto& entry : individual_polynomials) {
-    std::cout << "  Benutzer ID: " << entry.first << " -> g_coeff: ";
-    for (const auto& coeff : entry.second) {
-        std::cout << coeff << " ";  // Ausgabe jedes Koeffizienten im Vektor
-    }
-    std::cout << std::endl;
-    }
-        */
-        
 
-        
-       
-        
-
-        
-    
-      
-
-      //std::cout<<"Hier wird die Koeffizienten die Benutzer berechnet =="<< individual_polynomials<< std::endl;
       
     }
     return individual_polynomials;

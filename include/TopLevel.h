@@ -23,6 +23,8 @@ public:
         //NA1 und NA2 miteinander verbinden
         na1.iNANASocket.bind(na2.tNANASocket);
         na2.iNANASocket.bind(na1.tNANASocket);
+        na1.iSockCipher.bind(na2.tSockCipher);
+        na2.iSockCipher.bind(na1.tSockCipher);
 
         //SC_THREAD(start_key_exchange_process);
 

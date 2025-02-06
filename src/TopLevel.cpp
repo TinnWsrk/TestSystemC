@@ -34,5 +34,9 @@ void TopLevel::start_key_exchange_process(){
 
     na1.calculate_key();
     na2.calculate_key();
+   
+   
+    
+    //na1.generate_session_key();
 
 }

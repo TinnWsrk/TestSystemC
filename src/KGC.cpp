@@ -46,6 +46,7 @@ uint128_t KGC:: generate_random_prime(){
         uint128_t candidate = (static_cast<uint128_t>(high)<<64) | low;
 
         candidate = min + (candidate % (max-min+1)); // begrenzt auf bereich min- max
+        //candidate |= (static_cast<uint128_t>(1) << 127);
 
         candidate |= 1; //ungerade Zahl
 
